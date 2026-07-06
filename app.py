@@ -3,13 +3,10 @@ import streamlit.components.v1 as components
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
-# Настройки страницы Streamlit
 st.set_page_config(page_title="TSP Visualizer", layout="centered")
 
-st.title("🛰️ Визуализация задачи коммивояжера")
-st.write("Это приложение визуализирует обход городов по заданным координатам и пути.")
+st.title("Визуализация задачи коммивояжера")
 
-# Разметка колонок для ввода данных
 col1, col2 = st.columns(2)
 
 with col1:
@@ -77,24 +74,23 @@ with col1:
 
 with col2:
     default_solution = "25 24 54 7 4 34 42 11 41 44 43 56 27 1 53 36 32 30 48 6 23 49 57 29 18 35 50 59 31 15 39 5 21 22 14 45 46 40 55 26 52 51 58 17 33 37 10 19 8 9 13 12 47 2 38 60 16 28 3 20"
-    solution_input = st.text_area("Последовательность пути (1-based):", value=default_solution, height=250)
+    solution_input = st.text_area("Последовательность пути:", value=default_solution, height=250)
 
 interval = st.slider("Интервал обновления (мс):", min_value=50, max_value=1000, value=150, step=50)
 
-# Кешируем генерацию анимации, чтобы приложение не зависало и не перерендеривало её при каждом клике
 @st.cache_resource
 def build_animation(coords_text, solution_text, frame_interval):
-    # Парсинг координат
+    
     coordinates = []
     for line in coords_text.strip().split('\n'):
         if line:
             x, y = map(int, line.split())
             coordinates.append((x, y))
 
-    # Парсинг пути
+    
     path_indices = [int(node) - 1 for node in solution_text.split()]
 
-    # Замыкание пути
+    
     path_coords = [coordinates[idx] for idx in path_indices]
     path_coords.append(path_coords[0])
 
@@ -108,14 +104,13 @@ def build_animation(coords_text, solution_text, frame_interval):
     ax.grid(True, linestyle='--', alpha=0.5)
     ax.set_title("Обход городов коммивояжером", fontsize=12)
 
-    # Отрисовка городов
+    
     ax.scatter(cities_x, cities_y, color='red', s=45, edgecolors='black', zorder=2)
 
     # Номера городов
     for i, (x, y) in enumerate(coordinates):
         ax.annotate(f"{i + 1}", (x, y), textcoords="offset points", xytext=(0, 6), ha='center', fontsize=8, color='darkslategray')
 
-    # Инициализация объектов для анимации
     line, = ax.plot([], [], color='royalblue', linestyle='-', linewidth=2, zorder=1)
     traveler, = ax.plot([], [], color='lime', marker='o', markersize=10, markeredgecolor='black', zorder=3)
     step_text = ax.text(0.02, 0.95, '', transform=ax.transAxes, fontsize=10, bbox=dict(facecolor='white', alpha=0.7))
@@ -145,18 +140,17 @@ def build_animation(coords_text, solution_text, frame_interval):
         repeat=True
     )
     
-    # Конвертируем анимацию в HTML/JS код
+    
     html_data = ani.to_jshtml()
-    plt.close(fig) # Закрываем фигуру для предотвращения утечки памяти
+    plt.close(fig)
     return html_data
 
-# Отображение анимации
 if st.button("Сгенерировать анимацию"):
-    with st.spinner("Рендеринг анимации... Пожалуйста, подождите."):
+    with st.spinner("Пожалуйста, подождите."):
         try:
-            # Вызываем кешированную функцию генерации
+            
             animation_html = build_animation(coords_input, solution_input, interval)
-            # Встраиваем HTML-код на страницу
+            
             components.html(animation_html, height=750)
         except Exception as e:
             st.error(f"Произошла ошибка при обработке данных: {e}")
