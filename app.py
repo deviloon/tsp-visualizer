@@ -6,7 +6,7 @@ import matplotlib.animation as animation
 st.set_page_config(page_title="TSP Visualizer", layout="centered")
 
 st.title("Визуализация задачи коммивояжера")
-st.subheader("Ссылка на репозиторий: https://sourcecraft.dev/derklugekopf/tsp")
+st.text("Ссылка на репозиторий: https://sourcecraft.dev/derklugekopf/tsp")
 
 col1, col2 = st.columns(2)
 
