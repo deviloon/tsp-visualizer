@@ -99,7 +99,7 @@ def build_animation(coords_text, solution_text, frame_interval):
     cities_x, cities_y = zip(*coordinates)
 
     # Построение графика
-    fig, ax = plt.subplots(figsize=(8, 6.5))
+    fig, ax = plt.subplots(figsize=(6.5, 6.5))
     ax.set_xlim(min(cities_x) - 100, max(cities_x) + 100)
     ax.set_ylim(min(cities_y) - 100, max(cities_y) + 100)
     ax.grid(True, linestyle='--', alpha=0.5)
