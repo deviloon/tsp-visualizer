@@ -6,7 +6,7 @@ import matplotlib.animation as animation
 st.set_page_config(page_title="TSP Visualizer", layout="centered")
 
 st.title("Визуализация задачи коммивояжера")
-st.text("Ссылка на репозиторий: https://sourcecraft.dev/derklugekopf/tsp")
+
 
 col1, col2 = st.columns(2)
 
@@ -155,3 +155,9 @@ if st.button("Сгенерировать анимацию"):
             components.html(animation_html, height=750)
         except Exception as e:
             st.error(f"Произошла ошибка при обработке данных: {e}")
+
+
+
+
+
+st.subheader("Ссылка на репозиторий: https://sourcecraft.dev/derklugekopf/tsp")
